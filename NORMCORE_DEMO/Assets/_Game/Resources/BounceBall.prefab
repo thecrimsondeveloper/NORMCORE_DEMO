@@ -52,9 +52,14 @@ MonoBehaviour:
   followForce: 3
   maxSpeed: 5
   reflectForce: 1
+  randomForce: 5
   bounceForce: 3
   dragForce: 10
   maxDragSpeed: 2
+  sprite: {fileID: 0}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
   realtimeView: {fileID: 0}
 --- !u!50 &512098205261626756
 Rigidbody2D:
@@ -142,6 +147,8 @@ MonoBehaviour:
     component: {fileID: 563707710106822882}
   - componentID: 2
     component: {fileID: 0}
+  - componentID: 3
+    component: {fileID: 1754951001732073328}
   _childViews: []
 --- !u!114 &563707710106822882
 MonoBehaviour:

@@ -11,8 +11,14 @@ public class Paddle : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] RealtimeView realtime;
     [SerializeField] RealtimeTransform realtimeTransform;
+    [SerializeField] Player player;
 
     Camera mainCamera;
+
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+    }
 
     void Start()
     {
@@ -52,8 +58,8 @@ public class Paddle : MonoBehaviour
     void FixedUpdate()
     {
         //get horizontal and vertical input
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
 
         //add force to the rigidbody
         rb.AddForce(new Vector2(x, y) * speed);
@@ -85,6 +91,7 @@ public class Paddle : MonoBehaviour
             Debug.Log("Collided with ball");
             //set the owner of the ball to the local player
             ball.realtimeView.RequestOwnershipOfSelfAndChildren();
+            ball.SetColor(player.color);
         }
     }
 }

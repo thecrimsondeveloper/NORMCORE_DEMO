@@ -2,13 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [RealtimeModel]
-public partial class PlayerModel
+public partial class TileModel
 {
     [RealtimeProperty(1, true, true)]
-    private Color _color;
-
-    [RealtimeProperty(2, true, true)]
-    private string _name;
+    public PlayerColor _playerColor;
 }
