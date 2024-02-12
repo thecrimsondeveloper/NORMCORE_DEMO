@@ -25,7 +25,7 @@ public class Arena : RealtimeComponent<ArenaModel>
     [ShowInInspector] public PlayerColor availableColor => Arena.GetFirstAvailableColor();
     [SerializeField] Tile prefabTile;
 
-    public UnityEvent OnRoundStart = new UnityEvent();
+
 
 
     //onvaluechanged
@@ -52,11 +52,16 @@ public class Arena : RealtimeComponent<ArenaModel>
     [SerializeField] List<Tile> tiles = new List<Tile>();
     [SerializeField] Animation inGameUIAnimations;
     [SerializeField] TMP_Text timerText;
+    [SerializeField] AudioSource duringGameMusic;
+    [SerializeField] AudioSource menuMusic;
+    [SerializeField] AudioSource roomMusic;
 
     private void Awake()
     {
         gameTiles = tiles;
         BounceBall.OnColorChange.AddListener(BallColorChanged);
+
+        menuMusic.Play();
     }
 
     void Update()
@@ -104,11 +109,16 @@ public class Arena : RealtimeComponent<ArenaModel>
     public void StartRound()
     {
         model._timer = 60;
-        OnRoundStart.Invoke();
+        duringGameMusic.Play();
+        menuMusic.Stop();
+        roomMusic.Stop();
     }
     public void EndRound()
     {
         lastColor = PlayerColor.Default;
+        duringGameMusic.Stop();
+        menuMusic.Play();
+        roomMusic.Play();
     }
 
     PlayerColor lastColor = PlayerColor.Default;

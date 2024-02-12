@@ -2493,7 +2493,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8ef5d6cc7d8452143aeba2192288b616, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d84610d875cd7b34b8257cae8e3a46c9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.706
   m_Pitch: 1
@@ -8029,7 +8029,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3539608530bb37543a44310e9a88baa2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 68c27d868d576a740830677f19744546, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.754
   m_Pitch: 1
@@ -26154,33 +26154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabTile: {fileID: 3657074614655426182, guid: 2cf272ea3bd59ff47903675301c22662,
     type: 3}
-  OnRoundStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 123827281}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Stop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 444067486}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   width: 133
   height: 66
   spacing: 0.015
@@ -26589,6 +26562,9 @@ MonoBehaviour:
   - {fileID: 618210217}
   inGameUIAnimations: {fileID: 1161640394}
   timerText: {fileID: 1756877945}
+  duringGameMusic: {fileID: 444067486}
+  menuMusic: {fileID: 123827281}
+  roomMusic: {fileID: 123827281}
 --- !u!114 &1355162821
 MonoBehaviour:
   m_ObjectHideFlags: 0
