@@ -1,9 +1,12 @@
 
 using Normal.Realtime;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.VFX;
 
 public class BounceBall : RealtimeComponent<BounceBallModel>
 {
+    public static UnityEvent<PlayerColor> OnColorChange = new UnityEvent<PlayerColor>();
     [SerializeField] float followForce = 2f;
     [SerializeField] float maxSpeed = 2f;
     [SerializeField] float reflectForce = 5f;
@@ -13,6 +16,7 @@ public class BounceBall : RealtimeComponent<BounceBallModel>
     [SerializeField] float maxDragSpeed = 5f;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] LayerMask layer;
+    [SerializeField] VisualEffect colorChangeVFX;
 
     public PlayerColor color => model != null ? model.color : PlayerColor.Default;
 
@@ -136,14 +140,22 @@ public class BounceBall : RealtimeComponent<BounceBallModel>
 
     public void SetColor(PlayerColor color)
     {
-        if (model != null)
-            model.color = color;
+        if (model == null) return;
+        model.color = color;
     }
 
     void ColorDidChange(BounceBallModel model, PlayerColor value)
     {
+        if (model.isFreshModel) return;
+        OnColorChange.Invoke(value);
+
+
+        Color color = Player.GetColor(value);
         Debug.Log("Color changed to: " + value);
-        sprite.color = Player.GetColor(value);
+        sprite.color = color;
+
+        colorChangeVFX.SetVector4("Color", color);
+        colorChangeVFX.Play();
     }
 
 

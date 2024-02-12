@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Normal.Realtime;
 using UnityEngine;
+using UnityEngine.Events;
 using static Normal.Realtime.Realtime;
 
 public class RealtimeManager : MonoBehaviour
 {
 
+    public UnityEvent OnJoinedRoomEvent = new UnityEvent();
+    public UnityEvent OnLeftRoomEvent = new UnityEvent();
 
     private Realtime _realtime;
 
@@ -17,12 +20,30 @@ public class RealtimeManager : MonoBehaviour
 
         // Notify us when Realtime successfully connects to the room
         _realtime.didConnectToRoom += DidConnectToRoom;
-
-        _realtime.Connect("PongRoom");
+        _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
     }
 
     private void DidConnectToRoom(Realtime realtime)
     {
-        Debug.Log("Connected to room!");
+        OnJoinedRoomEvent.Invoke();
     }
+
+    private void DidDisconnectFromRoom(Realtime realtime)
+    {
+        OnLeftRoomEvent.Invoke();
+    }
+
+
+
+    public void ConnectToRoom()
+    {
+        _realtime.Connect("PongRoom");
+    }
+
+    public void DisconnectFromRoom()
+    {
+        _realtime.Disconnect();
+    }
+
+
 }

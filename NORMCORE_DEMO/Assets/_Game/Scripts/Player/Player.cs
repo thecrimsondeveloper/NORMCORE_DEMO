@@ -18,6 +18,8 @@ public class Player : RealtimeComponent<PlayerModel>
 
         startingColor = Arena.GetFirstAvailableColor();
         Arena.AddPlayer(this);
+
+        transform.position = Arena.PlayerPosition(this);
     }
 
     void OnDestroy()

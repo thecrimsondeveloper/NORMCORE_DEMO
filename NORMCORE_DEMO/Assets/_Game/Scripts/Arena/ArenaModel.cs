@@ -6,6 +6,7 @@ using UnityEngine;
 [RealtimeModel]
 public partial class ArenaModel
 {
-
+    [RealtimeProperty(1, true, true)]
+    public float _timer = 0;
 
 }
