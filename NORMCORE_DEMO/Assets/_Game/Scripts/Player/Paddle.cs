@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening.Core.Easing;
 using Normal.Realtime;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Paddle : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Paddle : MonoBehaviour
     [SerializeField] RealtimeView realtime;
     [SerializeField] RealtimeTransform realtimeTransform;
     [SerializeField] Player player;
+    [SerializeField] VisualEffect colorChangeVFX;
 
     Camera mainCamera;
 
@@ -92,6 +94,10 @@ public class Paddle : MonoBehaviour
             //set the owner of the ball to the local player
             ball.realtimeView.RequestOwnershipOfSelfAndChildren();
             ball.SetColor(player.color);
+
+            //play the color change vfx
+            colorChangeVFX.SetVector4("Color", Player.GetColor(player.color));
+            colorChangeVFX.Play();
         }
     }
 }

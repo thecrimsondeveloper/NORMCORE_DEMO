@@ -4,6 +4,10 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Normal.Realtime;
 using Unity.VisualScripting;
+using TMPro;
+using UnityEngine.Events;
+
+
 
 
 
@@ -20,6 +24,8 @@ public class Arena : RealtimeComponent<ArenaModel>
     [ShowInInspector] public List<Player> Players => players;
     [ShowInInspector] public PlayerColor availableColor => Arena.GetFirstAvailableColor();
     [SerializeField] Tile prefabTile;
+
+    public UnityEvent OnRoundStart = new UnityEvent();
 
 
     //onvaluechanged
@@ -44,11 +50,90 @@ public class Arena : RealtimeComponent<ArenaModel>
     [SerializeField] Transform rightParent;
     [SerializeField] Transform bottomParent;
     [SerializeField] List<Tile> tiles = new List<Tile>();
+    [SerializeField] Animation inGameUIAnimations;
+    [SerializeField] TMP_Text timerText;
 
     private void Awake()
     {
         gameTiles = tiles;
+        BounceBall.OnColorChange.AddListener(BallColorChanged);
     }
+
+    void Update()
+    {
+        if (model != null) timerText.text = model._timer.ToString("F2");
+
+
+        if (realtimeView.isOwnedLocallyInHierarchy == false) return;
+
+        if (model != null)
+        {
+            model._timer -= Time.deltaTime;
+            if (model._timer <= 0)
+            {
+                EndRound();
+            }
+        }
+    }
+
+    float lastTimer = -1;
+    private void TimerDidChange(ArenaModel model, float value)
+    {
+
+    }
+
+
+    protected override void OnRealtimeModelReplaced(ArenaModel previousModel, ArenaModel currentModel)
+    {
+        if (previousModel != null)
+        {
+            // Unregister from events
+            previousModel.timerDidChange -= TimerDidChange;
+        }
+
+        if (currentModel != null)
+        {
+            // Update the timer to match the new model
+            TimerDidChange(currentModel, currentModel._timer);
+
+            // Register for events so we'll know if the timer changes later
+            currentModel.timerDidChange += TimerDidChange;
+        }
+    }
+
+    public void StartRound()
+    {
+        model._timer = 60;
+        OnRoundStart.Invoke();
+    }
+    public void EndRound()
+    {
+        lastColor = PlayerColor.Default;
+    }
+
+    PlayerColor lastColor = PlayerColor.Default;
+    void BallColorChanged(PlayerColor color)
+    {
+        if (lastColor == color) return;
+
+        if (lastColor == PlayerColor.Default)
+        {
+            FirstColorChange(color);
+        }
+
+        lastColor = color;
+    }
+
+    void FirstColorChange(PlayerColor color)
+    {
+        StartRound();
+    }
+
+
+
+
+
+
 
 
     public static void SetColorOfClosestTile(Vector3 pos, PlayerColor color)
@@ -106,6 +191,21 @@ public class Arena : RealtimeComponent<ArenaModel>
     {
         if (players.Contains(player)) return;
         players.Add(player);
+    }
+
+    public static Vector2 PlayerPosition(Player player)
+    {
+
+
+        int index = players.IndexOf(player);
+
+        if (index == 0) return Vector2.up * 0.5f;
+        if (index == 1) return Vector2.right * 0.5f;
+        if (index == 2) return Vector2.down * 0.5f;
+        if (index == 3) return Vector2.left * 0.5f;
+
+
+        return Vector2.zero;
     }
 
     public static void RemovePlayer(Player player)

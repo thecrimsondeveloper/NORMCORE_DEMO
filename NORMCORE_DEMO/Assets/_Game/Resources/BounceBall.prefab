@@ -60,6 +60,7 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 0
+  colorChangeVFX: {fileID: 0}
   realtimeView: {fileID: 0}
 --- !u!50 &512098205261626756
 Rigidbody2D:
